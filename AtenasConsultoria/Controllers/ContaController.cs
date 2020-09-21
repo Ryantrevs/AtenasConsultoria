@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AtenasConsultoria.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AtenasConsultoria.Controllers
@@ -26,7 +27,7 @@ namespace AtenasConsultoria.Controllers
         }
 
         [HttpPost]
-        public Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             return View();
         }

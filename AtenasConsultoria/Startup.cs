@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace AtenasConsultoria
 {
@@ -28,6 +30,9 @@ namespace AtenasConsultoria
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<Context>(opt => opt.UseMySql(Configuration.GetConnectionString("ConsultoriaContext")));
+
             services.AddIdentity<User, IdentityRole>(opt =>
             {
                 opt.SignIn.RequireConfirmedEmail = true;

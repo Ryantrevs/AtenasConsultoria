@@ -1,0 +1,88 @@
+﻿@model AtenasConsultoria.API.LinkPagamento
+
+@{
+    ViewData["Title"] = "CriarLink";
+}
+
+<h1>Criar Link de Pagamento</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CriarLink">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="name" class="control-label"></label>
+                <input asp-for="name" class="form-control" />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="amount" class="control-label"></label>
+                <input asp-for="amount" class="form-control" />
+                <span asp-validation-for="amount" class="text-danger"></span>
+            </div>
+            <div class="form-group items">
+                <label asp-for="items.title" class="control-label"></label>
+                <input asp-for="items.title" class="form-control" />
+                <span asp-validation-for="items.title" class="text-danger"></span>
+
+                <label asp-for="items.unit_price" class="control-label"></label>
+                <input asp-for="items.unit_price" class="form-control" />
+                <span asp-validation-for="items.unit_price" class="text-danger"></span>
+
+                <label asp-for="items.quantity" class="control-label"></label>
+                <input asp-for="items.quantity" class="form-control" />
+                <span asp-validation-for="items.quantity" class="text-danger"></span>
+
+                <label asp-for="items.tangible" class="control-label"></label>
+                <input asp-for="items.tangible" class="form-control" />
+                <span asp-validation-for="items.tangible" class="text-danger"></span>
+            </div>
+            <div class="form-group items">
+                <label asp-for="payment_Config.boleto.enabled" class="control-label"></label>
+                <input asp-for="payment_Config.boleto.enabled" class="form-control" />
+                <span asp-validation-for="payment_Config.boleto.enabled" class="text-danger"></span>
+
+                <label asp-for="payment_Config.boleto.expires_in" class="control-label"></label>
+                <input asp-for="payment_Config.boleto.expires_in" class="form-control" />
+                <span asp-validation-for="payment_Config.boleto.expires_in" class="text-danger"></span>
+
+                <label asp-for="payment_Config.credit_Card.enabled" class="control-label"></label>
+                <input asp-for="payment_Config.credit_Card.enabled" class="form-control" />
+                <span asp-validation-for="payment_Config.credit_Card.enabled" class="text-danger"></span>
+
+                <label asp-for="payment_Config.credit_Card.free_installments" class="control-label"></label>
+                <input asp-for="payment_Config.credit_Card.free_installments" class="form-control" />
+                <span asp-validation-for="payment_Config.credit_Card.free_installments" class="text-danger"></span>
+
+                <label asp-for="payment_Config.credit_Card.interest_rate" class="control-label"></label>
+                <input asp-for="payment_Config.credit_Card.interest_rate" class="form-control" />
+                <span asp-validation-for="payment_Config.credit_Card.interest_rate" class="text-danger"></span>
+
+                <label asp-for="payment_Config.credit_Card.max_installments" class="control-label"></label>
+                <input asp-for="payment_Config.credit_Card.max_installments" class="form-control" />
+                <span asp-validation-for="payment_Config.credit_Card.max_installments" class="text-danger"></span>
+
+                <label asp-for="payment_Config.default_payment_method" class="control-label"></label>
+                <input asp-for="payment_Config.default_payment_method" class="form-control" />
+                <span asp-validation-for="payment_Config.default_payment_method" class="text-danger"></span>
+
+                <label asp-for="items.quantity" class="control-label"></label>
+                <input asp-for="items.quantity" class="form-control" />
+                <span asp-validation-for="items.quantity" class="text-danger"></span>
+
+                <label asp-for="items.tangible" class="control-label"></label>
+                <input asp-for="items.tangible" class="form-control" />
+                <span asp-validation-for="items.tangible" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
