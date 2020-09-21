@@ -1,12 +1,16 @@
 ﻿using AtenasConsultoria.API;
+using AtenasConsultoria.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Unicode;
 using System.Threading.Tasks;
@@ -30,62 +34,65 @@ namespace AtenasConsultoria.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CriarLink(LinkPagamento model)
+        public async Task<IActionResult> CriarLink(ApiViewModel model)
         {
             if (ModelState.IsValid)
             {
+                items Item = new items()
+                {
+                    id = Guid.NewGuid().ToString(),
+                    title = model.title,
+                    unit_price = model.unit_price,
+                    quantity = model.quantity,
+                    tangible = model.tangible
+                };
                 LinkPagamento novo = new LinkPagamento()
                 {
                     api_key = configuration.GetConnectionString("ApiKey"),
                     name = model.name,
                     amount = model.amount,
-                    items = new items()
-                    {
-                        id = Guid.NewGuid().ToString(),
-                        title = model.items.title,
-                        unit_price = model.items.unit_price,
-                        quantity = model.items.quantity,
-                        tangible = model.items.tangible
-                    },
                     payment_Config = new payment_config()
                     {
                         boleto = new boleto()
                         {
-                            enabled = model.payment_Config.boleto.enabled,
-                            expires_in = model.payment_Config.boleto.expires_in
+                            enabled = model.enabledboleto,
+                            expires_in = model.expires_in
                         },
                         credit_Card = new credit_card()
                         {
-                            enabled = model.payment_Config.credit_Card.enabled,
-                            free_installments = model.payment_Config.credit_Card.free_installments,
-                            interest_rate = model.payment_Config.credit_Card.interest_rate,
-                            max_installments = model.payment_Config.credit_Card.max_installments
+                            enabled = model.enabledCard,
+                            free_installments = model.free_installments,
+                            interest_rate = model.interest_rate,
+                            max_installments = model.max_installments
                         }
 
                     }
                 };
+                novo.AddItem(Item);
 
-                _ = await criarLink(novo);
+                var resultado = await criarLink(novo);
+
+                Console.WriteLine(resultado);
 
                 return RedirectToAction("");
             }
             return View();
         }
 
-        private async Task<HttpResponseMessage> criarLink(LinkPagamento model)
+        private async Task<string> criarLink(LinkPagamento model)
         {
-            var client = new HttpClient();
+            HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(configuration.GetConnectionString("BaseAddress"));
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            
-            
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
             var json = JsonConvert.SerializeObject(model);
 
-            HttpResponseMessage response = await client.PostAsync("/payment_links", new StringContent(json,
-                                                                                               Encoding.UTF8,
-                                                                                               "application/json"));
+            var response = await client.PostAsync("https://api.pagar.me/1/payment_links",new StringContent(json,Encoding.UTF8,"application/json"));
 
-            return response;
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            return responseBody;
+         
         }
     }
 }

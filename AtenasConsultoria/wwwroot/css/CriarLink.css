@@ -1,6 +1,18 @@
-﻿.items{
+﻿#fundo{
     display:flex;
     align-items:center;
+    border:1px #000000 solid;
+    background:#ff6a00;
+    width:900px;
+}
 
+.items{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
     
+}
+.config{
+    display:flex;
+    justify-content:space-between;
 }
